@@ -1,5 +1,6 @@
 import { Command } from "commander";
 import { serveCommand } from "./cmd/server/serve";
+import { databaseCommand } from "./cmd/database/database";
 
 function bootstrap() {
   const program = new Command();
@@ -9,6 +10,7 @@ function bootstrap() {
     .version("v0.1.0");
 
   rootCmd.addCommand(serveCommand);
+  rootCmd.addCommand(databaseCommand);
 
   rootCmd.parse();
 }
