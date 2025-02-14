@@ -1,4 +1,4 @@
-import { createDatabaseConfig } from "@/config/database/database";
+import { createDatabaseConfig } from "@/config/database";
 import { Command } from "commander";
 
 export const debugDatabaseCommand = new Command()

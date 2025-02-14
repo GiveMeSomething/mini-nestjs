@@ -1,14 +1,18 @@
 import { Result } from "@/types/result";
 import { parse } from "@dotenvx/dotenvx";
 import {
-  IsInt,
   IsNotEmpty,
+  IsInt,
   Min,
-  validate,
   ValidationError,
+  validate,
 } from "class-validator";
 import { readFile } from "fs/promises";
-import { Knex } from "knex";
+import knex, { Knex } from "knex";
+import { join } from "path";
+import { cwd } from "process";
+
+const DB_CONFIG_PATH = ".env";
 
 const DB_HOST_KEY = "DB_HOST";
 const DB_PORT_KEY = "DB_PORT";
@@ -96,3 +100,32 @@ export class RawDatabaseConfig {
     return { data: databaseConfig };
   }
 }
+
+export const createDatabaseConfig = async (): Promise<
+  Result<DatabaseConfig, Error>
+> => {
+  const configPath = join(cwd(), DB_CONFIG_PATH);
+
+  const { data: rawConfig, error } = await RawDatabaseConfig.from(configPath);
+  if (error) {
+    return { error };
+  }
+
+  const database = knex({
+    client: "mysql",
+    connection: {
+      host: rawConfig.host,
+      port: rawConfig.port,
+      user: rawConfig.username,
+      password: rawConfig.password,
+      database: rawConfig.database,
+    },
+    pool: {
+      min: 10,
+      max: rawConfig.maxConn,
+    },
+    acquireConnectionTimeout: 10000,
+  });
+
+  return { data: { database: database, rawConfig } };
+};
