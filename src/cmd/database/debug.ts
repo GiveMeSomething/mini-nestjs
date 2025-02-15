@@ -6,7 +6,7 @@ import { exit } from "process";
 
 export const debugDatabaseCommand = new Command()
   .name("debug")
-  .description("Print config + try to ping database once")
+  .description("Display database config + ping database once")
   .action(async () => {
     const app = await NestFactory.createApplicationContext(AppModule);
     const databaseService = app.get(DatabaseService);

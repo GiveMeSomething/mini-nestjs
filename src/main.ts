@@ -1,6 +1,6 @@
 import { Command } from "commander";
-import { serveCommand } from "./cmd/server/serve";
 import { databaseCommand } from "./cmd/database/database";
+import { sgCommand } from "./cmd/server/server";
 
 function bootstrap() {
   const program = new Command();
@@ -9,7 +9,7 @@ function bootstrap() {
     .description("CLI for controlling singgov-assignment")
     .version("v0.1.0");
 
-  rootCmd.addCommand(serveCommand);
+  rootCmd.addCommand(sgCommand);
   rootCmd.addCommand(databaseCommand);
 
   rootCmd.parse();
