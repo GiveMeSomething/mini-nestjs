@@ -1,5 +1,6 @@
 import { AppConfig } from "@/config/config";
-import { APP_CONFIG, AppModule } from "@/internal/app.module";
+import { APP_CONFIG } from "@/config/config.module";
+import { AppModule } from "@/internal/app.module";
 import { NestFactory } from "@nestjs/core";
 import { Command } from "commander";
 

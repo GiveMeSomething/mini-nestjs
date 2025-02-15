@@ -1,8 +1,8 @@
 import { createKnexClient, RawDatabaseConfig } from "@/config/database";
 import { Inject, Injectable } from "@nestjs/common";
 import { Knex } from "knex";
-import { APP_CONFIG } from "../app.module";
 import { AppConfig } from "@/config/config";
+import { APP_CONFIG } from "@/config/config.module";
 
 @Injectable()
 export class DatabaseService {
