@@ -43,6 +43,13 @@ $ npm run test:cov
 docker compose -p mini-nestjs -f docker-compose.dev.yaml up -d
 ```
 
+## Using another database
+
+- Update `docker-compose.dev.yaml` + `.env` to your new database config
+- Remove `mysql2` driver from `package.json`
+- Install your database driver. More info at [Knex Guide](https://knexjs.org/guide/#node-js)
+- Update the `client` to your database driver in `./src/config/database.ts` - `const createKnexClient()`
+
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).

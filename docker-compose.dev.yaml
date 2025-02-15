@@ -1,5 +1,5 @@
 services:
-  mysql:
+  database:
     image: mysql:9
     container_name: sgdb
     ports:
