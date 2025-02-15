@@ -7,7 +7,7 @@ import { exit } from "process";
 
 export const migrateUpCommand = new Command()
   .name("up")
-  .description("Migrate database to the lastest migrations")
+  .description("migrate database up 1 version")
   .action(async () => {
     const app = await NestFactory.createApplicationContext(AppModule);
     const databaseService = app.get(DatabaseService);
@@ -20,7 +20,7 @@ export const migrateUpCommand = new Command()
 
 export const migrateDownCommand = new Command()
   .name("down")
-  .description("Revert the previous applied migration")
+  .description("migrate database down 1 version")
   .action(async () => {
     // TODO: Implement multiple down step
     const app = await NestFactory.createApplicationContext(AppModule);
@@ -32,7 +32,21 @@ export const migrateDownCommand = new Command()
     exit(0);
   });
 
-export const migrateCommand = new Command()
+export const migrateAutoCommand = new Command()
+  .name("auto")
+  .description("migrate database to the latest migrations")
+  .action(async () => {
+    const app = await NestFactory.createApplicationContext(AppModule);
+    const databaseService = app.get(DatabaseService);
+
+    await databaseService.database.migrate.latest(migrationConfig);
+
+    console.log("[Migrate] Database migrate up successfully");
+    exit(0);
+  });
+
+export const migrateDatabaseCommand = new Command()
   .name("migrate")
   .addCommand(migrateUpCommand)
-  .addCommand(migrateDownCommand);
+  .addCommand(migrateDownCommand)
+  .addCommand(migrateAutoCommand);
