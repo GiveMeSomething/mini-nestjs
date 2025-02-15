@@ -20,7 +20,7 @@ $ npm install
 
 ```bash
 # Discover options by yourself
-$ npm start -- -- -h
+$ npm start -- -- --help
 ```
 
 ## Run tests
