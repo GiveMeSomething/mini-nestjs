@@ -1,17 +1,12 @@
-import { Controller, Get } from "@nestjs/common";
-import { AppService } from "./app.service";
-import { TeacherDatastore } from "./database/teacher.datastore";
+import { Controller, Get, HttpCode } from "@nestjs/common";
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly teacherService: TeacherDatastore,
-  ) {}
+  constructor() {}
 
-  @Get()
-  getHello(): string {
-    this.teacherService.testQuery();
-    return this.appService.getHello();
+  @Get("health_check")
+  @HttpCode(200)
+  healthCheck() {
+    return "healthy";
   }
 }

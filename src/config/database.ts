@@ -17,11 +17,6 @@ const DB_PASSWORD_KEY = "DB_PASSWORD";
 const DB_DATABASE_KEY = "DB_DATABASE";
 const DB_MAX_CONN_KEY = "DB_POOL_MAX_CONNS";
 
-export interface DatabaseConfig {
-  rawConfig: RawDatabaseConfig;
-  database: Knex;
-}
-
 export class RawDatabaseConfig {
   @IsNotEmpty()
   host: string;
