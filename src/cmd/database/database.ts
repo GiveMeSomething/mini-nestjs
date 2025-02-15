@@ -4,7 +4,7 @@ import { debugDatabaseCommand } from "./debug";
 
 export const databaseCommand = new Command()
   .name("database")
-  .description("Commands to interact with database")
+  .description("interact with database")
   .addCommand(migrateUpCommand)
   .addCommand(migrateDownCommand)
   .addCommand(debugDatabaseCommand);
