@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:9
+    container_name: sgdb
+    ports:
+      - 127.0.0.1:3306:3306
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      # Data volume
+      - ./mysqldata/dev/data:/var/lib/mysql
+      # Config volume
+      # - /src/config/mysql:/etc/mysql/conf.d
+    command: ["mysqld", "--slow-query-log=1", "--long-query-time=1"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 3
+    networks:
+      - singgov
+
+networks:
+  singgov:
+    name: singgov

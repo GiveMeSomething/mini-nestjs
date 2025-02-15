@@ -9,10 +9,6 @@ import {
 } from "class-validator";
 import { readFile } from "fs/promises";
 import knex, { Knex } from "knex";
-import { join } from "path";
-import { cwd } from "process";
-
-const DB_CONFIG_PATH = ".env";
 
 const DB_HOST_KEY = "DB_HOST";
 const DB_PORT_KEY = "DB_PORT";
@@ -101,18 +97,9 @@ export class RawDatabaseConfig {
   }
 }
 
-export const createDatabaseConfig = async (): Promise<
-  Result<DatabaseConfig, Error>
-> => {
-  const configPath = join(cwd(), DB_CONFIG_PATH);
-
-  const { data: rawConfig, error } = await RawDatabaseConfig.from(configPath);
-  if (error) {
-    return { error };
-  }
-
-  const database = knex({
-    client: "mysql",
+export const createKnexClient = (rawConfig: RawDatabaseConfig): Knex => {
+  return knex({
+    client: "mysql2",
     connection: {
       host: rawConfig.host,
       port: rawConfig.port,
@@ -126,6 +113,4 @@ export const createDatabaseConfig = async (): Promise<
     },
     acquireConnectionTimeout: 10000,
   });
-
-  return { data: { database: database, rawConfig } };
 };

@@ -1,20 +1,22 @@
-import { createDatabaseConfig } from "@/config/database";
+import { AppModule } from "@/internal/app.module";
+import { DatabaseService } from "@/internal/database/database.service";
+import { NestFactory } from "@nestjs/core";
 import { Command } from "commander";
+import { exit } from "process";
 
 export const debugDatabaseCommand = new Command()
   .name("debug")
   .description("Print config + try to ping database once")
   .action(async () => {
-    const config = await createDatabaseConfig();
-    if (config.error != null) {
-      throw config.error;
-    }
+    const app = await NestFactory.createApplicationContext(AppModule);
+    const databaseService = app.get(DatabaseService);
 
-    const { database, rawConfig } = config.data;
-    console.log("[Debug] Database config:");
-    console.log(rawConfig);
+    console.log("[DEBUG] Current database config:");
+    console.log(databaseService.rawConfig);
 
-    // Test connection
-    // This might throw err, but no need to catch
-    await database.select("1");
+    // Test database connection
+    await databaseService.database.raw("SELECT 1");
+
+    console.log("[DEBUG] Database connected.");
+    exit(0);
   });
