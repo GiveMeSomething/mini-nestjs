@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import { databaseCommand } from "./cmd/database/database";
 import { serverCommand } from "./cmd/server/server";
+import { redisCommand } from "./cmd/redis/redis";
 
 function bootstrap() {
   const program = new Command();
@@ -11,6 +12,7 @@ function bootstrap() {
 
   rootCmd.addCommand(serverCommand);
   rootCmd.addCommand(databaseCommand);
+  rootCmd.addCommand(redisCommand);
 
   rootCmd.parse();
 }

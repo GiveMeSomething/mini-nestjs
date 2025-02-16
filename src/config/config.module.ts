@@ -1,8 +1,13 @@
-import { SERVER_CONFIG_PATH, DB_CONFIG_PATH } from "@/const/app.const";
+import {
+  SERVER_CONFIG_PATH,
+  DB_CONFIG_PATH,
+  REDIS_CONFIG_PATH,
+} from "@/const/app.const";
 import { Module } from "@nestjs/common";
 import { AppConfig } from "./config";
 import { RawDatabaseConfig } from "./database";
 import { RawServerConfig } from "./server";
+import { RawRedisConfig } from "./redis";
 
 export const APP_CONFIG = "APP_CONFIG";
 
@@ -23,9 +28,15 @@ export const APP_CONFIG = "APP_CONFIG";
           throw databaseConfigResult.error;
         }
 
+        const redisConfigResult = await RawRedisConfig.from(REDIS_CONFIG_PATH);
+        if (redisConfigResult.error != null) {
+          throw redisConfigResult.error;
+        }
+
         return {
           server: serverConfigResult.data,
           database: databaseConfigResult.data,
+          redis: redisConfigResult.data,
         };
       },
     },
