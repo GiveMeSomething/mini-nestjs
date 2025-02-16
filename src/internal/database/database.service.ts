@@ -15,6 +15,7 @@ export class DatabaseService implements OnApplicationShutdown {
   }
 
   async onApplicationShutdown(signal?: string) {
+    console.log(`[Database Service] Received signal: ${signal}`);
     await this.database.destroy();
   }
 }
