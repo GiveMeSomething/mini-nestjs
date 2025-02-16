@@ -5,6 +5,8 @@ import { NestFactory } from "@nestjs/core";
 import { Command } from "commander";
 import { exit } from "process";
 
+type KnexMigrationList = Array<{ name: string }>;
+
 export const checkDatabaseStatusCommand = new Command()
   .name("status")
   .description("Display status of database")
@@ -16,8 +18,12 @@ export const checkDatabaseStatusCommand = new Command()
       await databaseService.database.migrate.status(migrationConfig);
     console.log(`[DEBUG] Database version: ${version}`);
 
-    const migrationLists =
-      await databaseService.database.migrate.list(migrationConfig);
+    const migrationLists = (await databaseService.database.migrate.list(
+      migrationConfig,
+    )) as Array<KnexMigrationList>;
+    if (migrationLists.length !== 2) {
+      throw new Error("[Database Status] Unexpected list result");
+    }
 
     const applied = migrationLists[0].map(
       (migration: { name: string }) => migration.name,

@@ -32,6 +32,7 @@ export class RedisService implements OnApplicationShutdown {
   }
 
   onApplicationShutdown(signal?: string) {
+    console.log(`[Redis Service] Received signal: ${signal}`);
     this.redis.disconnect(false);
   }
 }
