@@ -40,7 +40,7 @@ $ npm run test:cov
 
 ```bash
 # coming soon
-docker compose -p mini-nestjs -f docker-compose.dev.yaml up -d
+docker compose -p minest -f docker-compose.dev.yaml up -d
 ```
 
 ## Using another database
