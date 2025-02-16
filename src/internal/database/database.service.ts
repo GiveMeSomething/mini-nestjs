@@ -6,8 +6,8 @@ import { APP_CONFIG } from "@/config/config.module";
 
 @Injectable()
 export class DatabaseService {
-  rawConfig: RawDatabaseConfig;
-  database: Knex;
+  readonly rawConfig: RawDatabaseConfig;
+  readonly database: Knex;
 
   constructor(@Inject(APP_CONFIG) appConfig: AppConfig) {
     this.rawConfig = appConfig.database;
