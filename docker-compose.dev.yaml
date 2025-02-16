@@ -1,7 +1,7 @@
 services:
   database:
     image: mysql:9
-    container_name: sgdb
+    container_name: my-db
     ports:
       - 127.0.0.1:3306:3306
     env_file:
@@ -22,8 +22,19 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - singgov
+      - minest
+  redis:
+    image: redis:7-alpine
+    container_name: my-redis
+    ports:
+      - 6379:6379
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./redisdata/dev/data:/data
+    networks:
+      - minest
 
 networks:
-  singgov:
-    name: singgov
+  minest:
+    name: minest

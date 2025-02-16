@@ -18,19 +18,16 @@ const isValidRedisMode = (mode: string): mode is RedisMode => {
 
 export class RawRedisConfig {
   @IsNotEmpty()
+  mode: RedisMode;
+
+  @IsNotEmpty()
   host: string;
 
   @IsInt()
   port: number;
 
-  @IsNotEmpty()
   username: string;
-
-  @IsNotEmpty()
   password: string;
-
-  @IsNotEmpty()
-  mode: RedisMode;
 
   constructor(
     host: string,
