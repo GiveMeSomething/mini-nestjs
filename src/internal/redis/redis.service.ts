@@ -5,11 +5,11 @@ import {
   createRedisClusterClient,
   RawRedisConfig,
 } from "@/config/redis";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, OnApplicationShutdown } from "@nestjs/common";
 import Redis, { Cluster } from "ioredis";
 
 @Injectable()
-export class RedisService {
+export class RedisService implements OnApplicationShutdown {
   readonly rawConfig: RawRedisConfig;
   readonly redis: Redis | Cluster;
 
@@ -29,5 +29,9 @@ export class RedisService {
       }
       this.redis = data;
     }
+  }
+
+  onApplicationShutdown(signal?: string) {
+    this.redis.disconnect(false);
   }
 }

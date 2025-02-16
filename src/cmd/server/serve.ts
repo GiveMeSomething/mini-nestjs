@@ -7,5 +7,8 @@ export const serveCommand = new Command()
   .description("Start the server")
   .action(async () => {
     const app = await NestFactory.create(AppModule);
+
+    app.enableShutdownHooks();
+
     await app.listen(8000);
   });
